@@ -191,9 +191,24 @@ def main():
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'Utility Number': 'utility_id'})
         ##pivot table, codes by name (more codes than name)
+
     ##Owner Type (wide form early on)
     ##1990-1998: individual columns
     # FEDERAL, STATE, MUNI, PRIVATE, COOP
+
+    for year in np.arange(1990, 1999):
+        key= '1990'
+        ownership = pd.Series(xls_dict[key]['COOP'])
+        for i in np.arange(0, len(ownership)):
+            if pd.notnull(xls_dict[key]['FEDERAL'][i]):
+                ownership[i] = 'FEDERAL'
+            elif pd.notnull(xls_dict[key]['MUNI'][i]):
+                ownership[i] = 'MUNI'
+            elif pd.notnull(xls_dict[key]['PRIVATE'][i]):
+                ownership[i] = 'PRIVATE'
+
+
+
     ##1999-2007: None
     ##2007- 2016: "Ownership"
     # 2008: nan, 'Municipal', 'Investor Owned', 'Unregulated',
@@ -209,6 +224,7 @@ def main():
     # 'Community Choice Aggregator', 'Behind the Meter',
     # 'Retail Power Marketer', 'State', 'Cooperative', 'Federal',
     # 'Political Subdivision'
+
     ##Revenue (Res, Com, Ind, Tran/Hwy, Other, Total)
     ##1990-1998
     for year in np.arange(1990, 1999):
