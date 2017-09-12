@@ -141,19 +141,19 @@ def main():
         xls_dict[key]['year'] = pd.Series(np.repeat(year, len(xls_dict[key])))
     ##State
     ##1990-2000: STATE
-    for year in np.arange(1990, 2001):
-        key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={'STATE': 'state'})
+#    for year in np.arange(1990, 2001):
+ #       key = str(year)
+  #      xls_dict[key] = xls_dict[key].rename(columns={'STATE': 'state'})
         ##2001-2006:State
-    for year in np.arange(2001, 2007):
-        key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
+   # for year in np.arange(2001, 2007):
+    #    key = str(year)
+     #   xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
         ##2007:STATE_CODE
-    xls_dict['2007'] = xls_dict['2007'].rename(columns={'State': 'state'})
+    #xls_dict['2007'] = xls_dict['2007'].rename(columns={'State': 'state'})
     ##2008- 2016: State
-    for year in np.arange(2008, 2017):
-        key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
+    #for year in np.arange(2008, 2017):
+     #   key = str(year)
+      #  xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
         # check to make sure abbreviations, etc, are the same
     ##BA Code/ISO/RTO
     ##1990-1998: ASCC, ECAR, ERCOT, MAIN, MAAC, MAPP, NPCC, SERC, SPP, WSCC,
@@ -202,11 +202,13 @@ def main():
         for i in np.arange(0, len(ownership)):
             if pd.notnull(xls_dict[key]['FEDERAL'][i]):
                 ownership[i] = 'FEDERAL'
+            elif pd.notnull(xls_dict[key]['STATE'][i]):
+
             elif pd.notnull(xls_dict[key]['MUNI'][i]):
                 ownership[i] = 'MUNI'
             elif pd.notnull(xls_dict[key]['PRIVATE'][i]):
                 ownership[i] = 'PRIVATE'
-
+        xls_dict[key]['ownership'] = ownership
 
 
     ##1999-2007: None
