@@ -265,6 +265,10 @@ def main():
     ##Industrial: INDUSTRIAL_REVENUES
     ##Transportation: TRANSPORTATION_REVENUES
     ##Total: TOTAL_REVENUES
+    for year in np.arange(2008, 2013):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[8]:'revenue_residential'
+                                                      })
     ##2008-2012
     ##Residential: [8]
     ##Commercial: [11]
