@@ -212,7 +212,41 @@ def main():
         xls_dict[key]['ownership'] = ownership
 
     ##1999-2007: None
-    ##2007- 2016: "Ownership"
+    ##2007: "OWNERSHIP"
+    xls_dict['2007'] = xls_dict['2007'].rename(columns={'OWNERSHIP':'ownership'})
+    xls_dict['2007']['ownership']=xls_dict['2007']['ownership'].replace({'Federal':'FEDERAL',
+                                                                        'Municipal':'MUNI',
+                                                                        'State':'STATE',
+                                                                        'Cooperative':'COOP',
+                                                                        'Investor Owned':'IOU',
+                                                                        'Unregulated':'UNREGULATED',
+                                                                        'Retail Power Marketer':'RETAILER',
+                                                                        'Political Subdivision':'POLITICAL SUB'})
+
+
+    ##2008- 2016: "Ownership"
+    for year in np.arange(2008, 2017):
+        key=str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'Ownership':'ownership'})
+
+    for year in np.arange(2008, 2017):
+        key=str(year)
+        xls_dict[key]['ownership'] = xls_dict[key]['ownership'].replace({'Federal':'FEDERAL',
+                                                            'Municipal':'MUNI',
+                                                            'Retail Power Marketer':'RETAILER',
+                                                            'Behind the Meter':'BEHIND METER',
+                                                            'Investor Owned':'IOU',
+                                                            'Political Subdivision':'POLITICAL SUB',
+                                                            'Community Choice Aggregator':'CCA',
+                                                            'State':'STATE',
+                                                            'Cooperative':'COOP',
+                                                            'Unregulated': 'UNREGULATED',
+                                                            'Wholesale Power Marketer':'WHOLESALER'})
+    owner_list = []
+    for year in np.arange(2008, 2017):
+        key=str(year)
+        owner_list = owner_list + list(xls_dict[key]['ownership'])
+
     # 2008: nan, 'Municipal', 'Investor Owned', 'Unregulated',
     # 'Retail Power Marketer', 'State', 'Cooperative', 'Federal',
     # 'Wholesale Power Marketer', 'Political Subdivision'
