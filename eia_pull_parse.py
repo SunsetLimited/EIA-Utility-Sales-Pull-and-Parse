@@ -265,118 +265,256 @@ def main():
     ##Industrial: INDUSTRIAL_REVENUES
     ##Transportation: TRANSPORTATION_REVENUES
     ##Total: TOTAL_REVENUES
+
+    ##2007
     for year in np.arange(2008, 2013):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[8]:'revenue_residential'
-                                                      })
-    ##2008-2012
+        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[8]:'revenue_residential',
+                                                      xls_dict[key].columns[11]:'revenue_commercial',
+                                                      xls_dict[key].columns[14]:'revenue_industrial',
+                                                      xls_dict[key].columns[17]:'revenue_transportation',
+                                                      xls_dict[key].columns[20]:'revenue_total'})
+
     ##Residential: [8]
     ##Commercial: [11]
     ##Industrial: [14]
     ##Transportation: [17]
     ##Total: [20]
+
     ##2013-2015
+    for year in np.arange(2013, 2016):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[9]:'revenue_residential',
+                                                      xls_dict[key].columns[12]: 'revenue_commercial',
+                                                      xls_dict[key].columns[15]: 'revenue_industrial',
+                                                      xls_dict[key].columns[18]: 'revenue_transportation',
+                                                      xls_dict[key].columns[21]: 'revenue_total'
+                                                      })
     ##Residential: [9]
     ##Commercial: [12]
     ##Industrial: [15]
     ##Transportation: [18]
     ##Total: [21]
+
     ##2016
+
+    xls_dict['2016'] = xls_dict['2016'].rename(columns={xls_dict['2016'].columns[10]:'revenue_residential',
+                                                        xls_dict['2016'].columns[13]: 'revenue_commercial',
+                                                        xls_dict['2016'].columns[16]: 'revenue_industrial',
+                                                        xls_dict['2016'].columns[19]: 'revenue_transportation',
+                                                        xls_dict['2016'].columns[22]: 'revenue_total'})
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
     ##Transportation: [19]
     ##Total: [22]
+
     ##Volume of Sales
     ##1990-1998
+    for year in np.arange(1990, 1999):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'MWH1_1':'sales_residential',
+                                                      'MWH1_2':'sales_commercial',
+                                                      'MWH1_3':'sales_industrial',
+                                                      'MWH1_4':'sales_transportation',
+                                                      'MWH1_5':'sales_other',
+                                                      'MWH1_6':'sales_total'})
     ##Residential: MWH1_1
     ##Commercial: MWH1_2
     ##Industrial: MWH1_3
     ##Transportation: MWH1_4
     ##Other: MWH1_5
     ##Total: MWH1_6
+
     ##1999-2000
+    for year in np.arange(1999, 2001):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'RESSALES':'sales_residential',
+                                                      'COMSALES':'sales_commercial',
+                                                      'INDSALES':'sales_industrial',
+                                                      'HWYSALES':'sales_transportation',
+                                                      'OTHSALES':'sales_other',
+                                                      'TOTSALES':'sales_total'})
     ##Residential: RESSALES
     ##Commercial: COMSALES
     ##Industrial: INDSALES
     ##Transportation: HWYSALES
     ##Other: OTHSALES
     ##Total: TOTSALES
+
     ##2001-2006
+
+    for year in np.arange(2001, 2007):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'Res Sales(MWh)':'sales_residential',
+                                                      'Com Sales (MWh)':'sales_commercial',
+                                                      'Ind Sales (MWh)':'sales_industrial',
+                                                      'Trans Sales (MWh)':'sales_transportation',
+                                                      'Total Sales (MWh)':'sales_total'})
     ##Residential: Res Sales (MWh)
     ##Commercial: Com Sales (MWh)
     ##Industrial: Ind Sales (MWh)
     ##Transportation: Trans Sales (MWh)
     ##Total: Total Sales (MWh)
+
     ##2007
+
+    xls_dict['2007'] = xls_dict['2007'].rename(columns={'RESIDENTIAL_SALES':'sales_residential',
+                                                        'COMMERCIAL_SALES':'sales_commercial',
+                                                        'INDUSTRIAL_SALES':'sales_industrial',
+                                                        'TRANSPORTATION_SALES':'sales_transportation',
+                                                        'TOTAL_SALES':'sales_total'})
+
     ##Residential: RESIDENTIAL_SALES
     ##Commercial: COMMERCIAL_SALES
     ##Industrial: INDUSTRIAL_SALES
     ##Transportation: TRANSPORTATION_SALES
     ##Total: TOTAL_SALES
+
     ##2008-2012
+
+    for year in np.arange(2008, 2013):
+        key=str(year)
+        xls_dict[key]=xls_dict[key].rename(columns={xls_dict[key].columns[9]:'sales_residential',
+                                                    xls_dict[key].columns[12]:'sales_commercial',
+                                                    xls_dict[key].columns[15]:'sales_industrial',
+                                                    xls_dict[key].columns[18]:'sales_transportation',
+                                                    xls_dict[key].columns[21]:'sales_total'})
     ##Residential: [9]
     ##Commercial: [12]
     ##Industrial: [15]
     ##Transportation: [18]
     ##Total: [21]
+
     ##2013-2015
+
+    for year in np.arange(2013, 2016):
+        key=str(year)
+        xls_dict[key]=xls_dict[key].rename(columns={xls_dict[key].columns[10]:'sales_residential',
+                                                    xls_dict[key].columns[13]:'sales_commercial',
+                                                    xls_dict[key].columns[16]:'sales_industrial',
+                                                    xls_dict[key].columns[19]:'sales_transportation',
+                                                    xls_dict[key].columns[22]:'sales_total'})
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
     ##Transportation: [19]
     ##Total: [22]
+
     ##2016
+    xls_dict['2016'] = xls_dict['2016'].rename(columns={xls_dict['2016'].columns[11]: 'sales_residential',
+                                                        xls_dict['2016'].columns[14]: 'sales_commercial',
+                                                        xls_dict['2016'].columns[17]: 'sales_industrial',
+                                                        xls_dict['2016'].columns[20]: 'sales_transportation',
+                                                        xls_dict['2016'].columns[23]: 'sales_total'})
     ##Residential: [11]
     ##Commercial: [14]
     ##Industrial: [17]
     ##Transportation: [20]
     ##Total: [23]
+
     ##Number of Customers
     ##1990-1998
+    for year in np.arange(1990, 1999):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'CONSUM1_1':'customers_residential',
+                                                      'CONSUM1_2':'customers_commercial',
+                                                      'CONSUM1_3':'customers_industrial',
+                                                      'CONSUM1_4':'customers_transportation',
+                                                      'CONSUM1_5':'customers_other',
+                                                      'CONSUM1_6':'customers_total'})
     ##Residential: CONSUM1_1
     ##Commercial: CONSUM1_2
     ##Industrial: CONSUM1_3
     ##Transportation: CONSUM1_4
     ##Other: CONSUM1_5
     ##Total: CONSUM1_6
+
     ##1999-2000
+    for year in np.arange(1999, 2001):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'RESCONS':'customers_residential',
+                                                      'COMCONS':'customers_commercial',
+                                                      'INDCONS':'customers_industrial',
+                                                      'HWYCONS':'customers_transportation',
+                                                      'OTHCONS':'customers_other',
+                                                      'TOTCONS':'customers_total'})
     ##Residential: RESCONS_
     ##Commercial: COMCONS
     ##Industrial: INDCONS
     ##Transportation: HWYCONS
     ##Other: OTHCONS
     ##Total: TOTCONS
+
     ##2001-2006
+    for year in np.arange(2001, 2007):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'Res Consumers (n)':'customers_residential',
+                                                      'Com Consumers (n)':'customers_commercial',
+                                                      'Ind Consumers (n)':'customers_industrial',
+                                                      'Trans Consumers (n)':'customers_transportation',
+                                                      'Total Consumers (n)':'customers_total'})
     ##Residential: Res Consumers (n)
     ##Commercial: Com Consumers (n)
     ##Industrial: Ind Consumers (n)
     ##Transportation: Trans Consumers (n)
     ##Total: Total Consumers (n)
+
     ##2007
+    xls_dict['2007'] = xls_dict['2007'].rename(columns={'RESIDENTIAL_CONSUMERS':'customers_residential',
+                                                        'COMMERCIAL_CONSUMERS':'customers_commercial',
+                                                        'INDUSTRIAL_CONSUMERS':'customers_industrial',
+                                                        'TRANSPORTATION_CONSUMERS':'customers_transportation',
+                                                        'TOTAL_CONSUMERS':'customers_total'})
+
     ##Residential: RESIDENTIAL_CONSUMERS
     ##Commercial: COMMERCIAL_CONSUMERS
     ##Industrial: INDUSTRIAL_CONSUMERS
     ##Transportation: TRANSPORTATION_CONSUMERS
     ##Total: TOTAL_CONSUMERS
+
     ##2008-2012
+    for year in np.arange(2008, 2013):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'xls_dict[key].columns[10]':'customers_residential',
+                                                    xls_dict[key].columns[13]:'customers_commercial',
+                                                    xls_dict[key].columns[16]:'customers_industrial',
+                                                    xls_dict[key].columns[19]:'customers_transportation',
+                                                    xls_dict[key].columns[22]:'customers_total'})
+
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
     ##Transportation: [19]
     ##Total: [22]
+
     ##2013-2015
+    for year in np.arange(2013, 2015):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[11]: 'customers_residential',
+                                                    xls_dict[key].columns[14]: 'customers_commercial',
+                                                    xls_dict[key].columns[17]: 'customers_industrial',
+                                                    xls_dict[key].columns[20]: 'customers_transportation',
+                                                    xls_dict[key].columns[23]: 'customers_total'})
+
     ##Residential: [11]
     ##Commercial: [14]
     ##Industrial: [17]
     ##Transportation: [20]
     ##Total: [23]
+
     ##2016
+    xls_dict['2016'] = xls_dict['2016'].rename(columns={xls_dict['2016'].columns[12]: 'customers_residential',
+                                                    xls_dict['2016'].columns[15]: 'customers_commercial',
+                                                    xls_dict['2016'].columns[18]: 'customers_industrial',
+                                                    xls_dict['2016'].columns[21]: 'customers_transportation',
+                                                    xls_dict['2016'].columns[24]: 'customers_total'})
     ##Residential: [12]
     ##Commercial: [15]
     ##Industrial: [18]
     ##Transportation: [21]
     ##Total: [24]
+
     ##Columns of Dataframe
     # Year (int)
     # State (factor)
