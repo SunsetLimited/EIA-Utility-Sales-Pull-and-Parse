@@ -155,14 +155,51 @@ def main():
      #   key = str(year)
       #  xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
         # check to make sure abbreviations, etc, are the same
+
+
     ##BA Code/ISO/RTO
+    for year in np.arange(1990, 1999):
+        key = str(year)
+        ba_code = pd.Series(xls_dict[key]['ASCC']).str.replace('X', 'ASCC')
+        for i in np.arange(0, len(ba_code)):
+            if pd.notnull(xls_dict[key]['ECAR'][i]):
+                ba_code[i] = 'ECAR'
+            elif pd.notnull(xls_dict[key]['ERCOT'][i]):
+                ba_code[i] = 'ERCOT'
+            elif pd.notnull(xls_dict[key]['MAIN'][i]):
+                ba_code[i] = 'MAIN'
+            elif pd.notnull(xls_dict[key]['MAAC'][i]):
+                ba_code[i] = 'MAAC'
+            elif pd.notnull(xls_dict[key]['MAPP'][i]):
+                ba_code[i] = 'MAPP'
+            elif pd.notnull(xls_dict[key]['NPCC'][i]):
+                ba_code[i] = 'NPCC'
+            elif pd.notnull(xls_dict[key]['SERC'][i]):
+                ba_code[i] = 'SERC'
+            elif pd.notnull(xls_dict[key]['SPP'][i]):
+                ba_code[i] = 'SPP'
+            elif pd.notnull(xls_dict[key]['WSCC'][i]):
+                ba_code[i] = 'WSCC'
+            elif pd.notnull(xls_dict[key]['HI'][i]):
+                ba_code[i] = 'HI'
+            elif pd.notnull(xls_dict[key]['PR_TERR'][i]):
+                ba_code[i] = 'PR_TERR'
+        xls_dict[key]['ba_code'] = ba_code
+
     ##1990-1998: ASCC, ECAR, ERCOT, MAIN, MAAC, MAPP, NPCC, SERC, SPP, WSCC,
     ## HI, PR_TERR
-    ##1999-2003 : NA (could just match to other years...)
-
+    ##1999-2012 : NA (could just match to other years...)
+    for year in np.arange(1999, 2013):
+        key = str(year)
+        xls_dict[key]['ba_code'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+    ##2013-2016: BA_CODE
     ##It's in wide for for the 90s, late 90s maybe gone?
     ##(control area): ASCC, ECAR, ERCOT, MAIN, MAAC, MAPP, NPCC, SERC, SPP, WSCC,
     ## HI, PR_TERR
+    for year in np.arange(2013, 2017):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns = {'BA_CODE':'ba_code'})
+
     ##Utility Name
     ##1990-2000 : UTILNAME
     for year in np.arange(1990, 2001):
@@ -198,7 +235,7 @@ def main():
     # FEDERAL, STATE, MUNI, PRIVATE, COOP
 
     for year in np.arange(1990, 1999):
-        key= '1990'
+        key= str(year)
         ownership = pd.Series(xls_dict[key]['COOP']).str.replace('X', 'COOP')
         for i in np.arange(0, len(ownership)):
             if pd.notnull(xls_dict[key]['FEDERAL'][i]):
