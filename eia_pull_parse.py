@@ -156,12 +156,14 @@ def main():
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
         ##2007:STATE_CODE
+
     xls_dict['2007'] = xls_dict['2007'].rename(columns={'STATE_CODE': 'state'})
 
     #2008- 2016: State
     for year in np.arange(2008, 2017):
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
+
 
 
     ##BA Code/ISO/RTO
@@ -256,6 +258,11 @@ def main():
         xls_dict[key]['ownership'] = ownership
 
     ##1999-2007: None
+
+    for year in np.arange(1999, 2007):
+        key = str(year)
+        xls_dict[key]['ownership'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+
     ##2007: "OWNERSHIP"
     xls_dict['2007'] = xls_dict['2007'].rename(columns={'OWNERSHIP':'ownership'})
     xls_dict['2007']['ownership']=xls_dict['2007']['ownership'].replace({'Federal':'FEDERAL',
@@ -342,7 +349,7 @@ def main():
         xls_dict[key] = xls_dict[key].rename(columns={'Res Revenue (000)': 'revenue_residential',
                                                       'Com Revenue (000)': 'revenue_commercial',
                                                       'Ind Revenue (000)': 'revenue_industrial',
-                                                      'Trans Revenue (000)': 'revenue_transportation',
+                                                      'Trans Rev (000)': 'revenue_transportation',
                                                       'Total Revenue (000)': 'revenue_total'})
 
         ##Residential: Res Revenue (000)
@@ -442,7 +449,7 @@ def main():
 
     for year in np.arange(2001, 2007):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={'Res Sales(MWh)':'sales_residential',
+        xls_dict[key] = xls_dict[key].rename(columns={'Res Sales (MWh)':'sales_residential',
                                                       'Com Sales (MWh)':'sales_commercial',
                                                       'Ind Sales (MWh)':'sales_industrial',
                                                       'Trans Sales (MWh)':'sales_transportation',
@@ -529,7 +536,7 @@ def main():
     ##1999-2000
     for year in np.arange(1999, 2001):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={'RESCONS':'customers_residential',
+        xls_dict[key] = xls_dict[key].rename(columns={'RESCONS_':'customers_residential',
                                                       'COMCONS':'customers_commercial',
                                                       'INDCONS':'customers_industrial',
                                                       'HWYCONS':'customers_transportation',
@@ -611,83 +618,29 @@ def main():
     ##Transportation: [21]
     ##Total: [24]
 
-    ##Columns of Dataframe
-    # Year (int)
-    # State (factor)
-    # BA Code (factor)
-    # Utility Name(string)
-    # Utility Code (int or float)
-    # Owner Type (factor)
-    # Revenue(float)
-    #
-    # Volume of Sales (float)
-    #
-    # Number of Customers (float)
+    ##make the final dataframe by concatenating all the ones in the dict
 
+    column_list = ['year','utility_id', 'utility_name', 'state', 'ba_code', 'ownership',
+                    'revenue_residential', 'revenue_commercial', 'revenue_industrial',
+                    'revenue_transportation', 'revenue_other', 'revenue_total',
+                    'sales_residential', 'sales_commercial', 'sales_industrial',
+                    'sales_transportation', 'sales_other', 'sales_total',
+                    'customers_residential', 'customers_commercial',
+                    'customers_industrial', 'customers_transportation',
+                    'customers_other', 'customers_total']
 
+    eia_ult_sales_hist = pd.DataFrame(columns = column_list)
 
-    for year in np.arange(1990, 1999):
-        col_list = list(xls_dict[str(year)].columns)
-        print("For year ", str(year), ":")
-        print("FEDERAL = ", 'FEDERAL' in col_list)
-        print("STATE = ", "STATE" in col_list)
-        print("MUNI = ", "MUNI" in col_list)
-        print("COOP = ", "COOP" in col_list)
-        print("PRIVATE = ", "PRIVATE" in col_list)
-    ###Note, these are all true! Same names for UTIL Type 1990 - 1998
+    for year in np.arange(1990, 2017):
+        key = str(year)
+        eia_ult_sales_hist = pd.concat([eia_ult_sales_hist, xls_dict[key][column_list]])
 
-
-    for year in np.arange(1990, 1999):
-        col_list = list(xls_dict[str(year)].columns)
-        print("For year ", str(year), ":")
-        print("ASCC = ", 'ASCC' in col_list)
-        print("ECAR = ", "ECAR" in col_list)
-        print("ERCOT = ", "ERCOT" in col_list)
-        print("MAIN = ", "MAIN" in col_list)
-        print("MAPP = ", "MAPP" in col_list)
-        print("SERC = ", "SERC" in col_list)
-        print("SPP = ", "SPP" in col_list)
-        print("WSCC = ", "WSCC" in col_list)
-    ##same for these values, al are in the nineties spreadsheet
-
-    ##little thought experiment: what's the total number of each type of generator?
-    # some embarassing boolean bullshit, but I'm on a United Flight and just paid
-    # $30 for no internet, so I can't look up cleaner methods (!?)
-    ##assuming exclusivity of utiltypes...
-
-    ninetyKey = pd.read_excel(zip_dict['90'].extract('DataElementsDef90-00.xls'))
-
-    var_dict = {}
-
-    for name in xls_dict['1990'].columns:
-        index = np.where(ninetyKey["Form EIA-861 Data Elements Definitions - 1990-2000"] == name)[0]
-        if np.isreal(index):
-            print(index)
-            var_dict[name] = ninetyKey['Unnamed: 1'][index]
-
-    var_dict['STCODE2_1']
-
-    xls_dict['1990']['MWH2_6'].sum() / xls_dict['1990']['MWH1_6'].sum()
-
-    util_type = pd.DataFrame(columns=['util_type', '1990', '1991', '1992', '1993',
-                                      '1994', '1995', '1996', '1997', '1998'])
-    util_type['util_type'] = ['FEDERAL', 'STATE', 'MUNI', 'COOP', 'PRIVATE']
-
-    #  for year in np.arange(1990, 1999):
-    #     subset_df = xls_dict[str(year)]
-    #    for type in util_type['util_type']:
-    #       util_type[str(year)][util_type['util_type'][util_type['util_type'] ==
-    #                                                  type].index[0]] = sum(subset_df[type] == 'X')
-
-    ###I need taht index value!
-    print((util_type['util_type'] == 'COOP').index)
-
-    ###edited to see if I can commit from bash after editing in Spyder
-
-    ###figure out formatting of 'merger' files, extract them
-    ###merge utility sales databases into a long file, matching all columns
-    ###filter into a wide file, include % of new load/revenue from merger (previous year proportions)
-
+set(eia_ult_sales_hist['year'])
 
 if __name__ == "__main__":
     main()
+
+for item in column_list:
+    for year in np.arange(1990, 2017):
+        print("Is ", 'ownership', " in ", str(year), "? ")
+        print('ownership' in xls_dict[str(year)].columns)
