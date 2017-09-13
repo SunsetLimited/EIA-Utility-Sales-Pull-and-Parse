@@ -140,21 +140,28 @@ def main():
         key = str(year)
         xls_dict[key]['year'] = pd.Series(np.repeat(year, len(xls_dict[key])))
     ##State
-    ##1990-2000: STATE
-#    for year in np.arange(1990, 2001):
- #       key = str(year)
-  #      xls_dict[key] = xls_dict[key].rename(columns={'STATE': 'state'})
+    ##1990-1998: NA
+    ##1999-2000 : STATE
+
+    for year in np.arange(1990,1999):
+        key = str(year)
+        xls_dict[key]['state'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+
+    for year in np.arange(1999, 2001):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'STATE': 'state'})
         ##2001-2006:State
-   # for year in np.arange(2001, 2007):
-    #    key = str(year)
-     #   xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
+
+    for year in np.arange(2001, 2007):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
         ##2007:STATE_CODE
-    #xls_dict['2007'] = xls_dict['2007'].rename(columns={'State': 'state'})
-    ##2008- 2016: State
-    #for year in np.arange(2008, 2017):
-     #   key = str(year)
-      #  xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
-        # check to make sure abbreviations, etc, are the same
+    xls_dict['2007'] = xls_dict['2007'].rename(columns={'STATE_CODE': 'state'})
+
+    #2008- 2016: State
+    for year in np.arange(2008, 2017):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
 
 
     ##BA Code/ISO/RTO
