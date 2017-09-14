@@ -219,7 +219,7 @@ def main():
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'UTILITY_NAME': 'utility_name'})
         ##2008-2016 : Utility Name
-    for year in np.arange(2001, 2008):
+    for year in np.arange(2008, 2017):
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'Utility Name': 'utility_name'})
     ##Utility Code
@@ -238,8 +238,8 @@ def main():
         xls_dict[key] = xls_dict[key].rename(columns={'Utility Number': 'utility_id'})
         ##pivot table, codes by name (more codes than name)
 
-    ##Owner Type (wide form early on)
-    ##1990-1998: individual columns
+        ##Owner Type (wide form early on)
+        ##1990-1998: individual columns
         ##still even missing some data here
     # FEDERAL, STATE, MUNI, PRIVATE, COOP
 
@@ -266,13 +266,13 @@ def main():
     ##2007: "OWNERSHIP"
     xls_dict['2007'] = xls_dict['2007'].rename(columns={'OWNERSHIP':'ownership'})
     xls_dict['2007']['ownership']=xls_dict['2007']['ownership'].replace({'Federal':'FEDERAL',
-                                                                        'Municipal':'MUNI',
-                                                                        'State':'STATE',
-                                                                        'Cooperative':'COOP',
-                                                                        'Investor Owned':'IOU',
-                                                                        'Unregulated':'UNREGULATED',
-                                                                        'Retail Power Marketer':'RETAILER',
-                                                                        'Political Subdivision':'POLITICAL SUB'})
+                                                                         'Municipal':'MUNI',
+                                                                         'State':'STATE',
+                                                                         'Cooperative':'COOP',
+                                                                         'Investor Owned':'IOU',
+                                                                         'Unregulated':'UNREGULATED',
+                                                                         'Retail Power Marketer':'RETAILER',
+                                                                         'Political Subdivision':'POLITICAL SUB'})
 
 
     ##2008- 2016: "Ownership"
@@ -283,21 +283,21 @@ def main():
     for year in np.arange(2008, 2017):
         key=str(year)
         xls_dict[key]['ownership'] = xls_dict[key]['ownership'].replace({'Federal':'FEDERAL',
-                                                            'Municipal':'MUNI',
-                                                            'Retail Power Marketer':'RETAILER',
-                                                            'Behind the Meter':'BEHIND METER',
-                                                            'Investor Owned':'IOU',
-                                                            'Political Subdivision':'POLITICAL SUB',
-                                                            'Community Choice Aggregator':'CCA',
-                                                            'State':'STATE',
-                                                            'Cooperative':'COOP',
-                                                            'Unregulated': 'UNREGULATED',
-                                                            'Wholesale Power Marketer':'WHOLESALER'})
+                                                                         'Municipal':'MUNI',
+                                                                         'Retail Power Marketer':'RETAILER',
+                                                                         'Behind the Meter':'BEHIND METER',
+                                                                         'Investor Owned':'IOU',
+                                                                         'Political Subdivision':'POLITICAL SUB',
+                                                                         'Community Choice Aggregator':'CCA',
+                                                                         'State':'STATE',
+                                                                         'Cooperative':'COOP',
+                                                                         'Unregulated': 'UNREGULATED',
+                                                                         'Wholesale Power Marketer':'WHOLESALER'})
     owner_list = []
     for year in np.arange(2008, 2017):
         key=str(year)
         owner_list = owner_list + list(xls_dict[key]['ownership'])
-
+    owner_list = set(owner_list)
     # 2008: nan, 'Municipal', 'Investor Owned', 'Unregulated',
     # 'Retail Power Marketer', 'State', 'Cooperative', 'Federal',
     # 'Wholesale Power Marketer', 'Political Subdivision'
@@ -351,6 +351,7 @@ def main():
                                                       'Ind Revenue (000)': 'revenue_industrial',
                                                       'Trans Rev (000)': 'revenue_transportation',
                                                       'Total Revenue (000)': 'revenue_total'})
+        xls_dict[key]['revenue_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
 
         ##Residential: Res Revenue (000)
         ##Commercial: Com Revenue (000)
@@ -363,6 +364,7 @@ def main():
                                                         'INDUSTRIAL_REVENUES': 'revenue_industrial',
                                                         'TRANSPORTATION_REVENUES': 'revenue_transportation',
                                                         'TOTAL_REVENUES': 'revenue_total'})
+    xls_dict['2007']['revenue_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict['2007'])))
     ##Residential: RESIDENTIAL_REVENUES
     ##Commercial: COMMERCIAL_REVENUES
     ##Industrial: INDUSTRIAL_REVENUES
@@ -372,11 +374,12 @@ def main():
     ##2007
     for year in np.arange(2008, 2013):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[8]:'revenue_residential',
-                                                      xls_dict[key].columns[11]:'revenue_commercial',
-                                                      xls_dict[key].columns[14]:'revenue_industrial',
-                                                      xls_dict[key].columns[17]:'revenue_transportation',
-                                                      xls_dict[key].columns[20]:'revenue_total'})
+        xls_dict[key].columns.values[8]='revenue_residential'
+        xls_dict[key].columns.values[11]='revenue_commercial'
+        xls_dict[key].columns.values[14]='revenue_industrial'
+        xls_dict[key].columns.values[17]='revenue_transportation'
+        xls_dict[key].columns.values[20]='revenue_total'
+        xls_dict[key]['revenue_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
 
     ##Residential: [8]
     ##Commercial: [11]
@@ -387,12 +390,12 @@ def main():
     ##2013-2015
     for year in np.arange(2013, 2016):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[9]:'revenue_residential',
-                                                      xls_dict[key].columns[12]: 'revenue_commercial',
-                                                      xls_dict[key].columns[15]: 'revenue_industrial',
-                                                      xls_dict[key].columns[18]: 'revenue_transportation',
-                                                      xls_dict[key].columns[21]: 'revenue_total'
-                                                      })
+        xls_dict[key].columns.values[9]='revenue_residential',
+        xls_dict[key].columns.values[12]= 'revenue_commercial',
+        xls_dict[key].columns.values[15]= 'revenue_industrial',
+        xls_dict[key].columns.values[18]= 'revenue_transportation',
+        xls_dict[key].columns.values[21]= 'revenue_total'
+    xls_dict[key]['revenue_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [9]
     ##Commercial: [12]
     ##Industrial: [15]
@@ -401,11 +404,11 @@ def main():
 
     ##2016
 
-    xls_dict['2016'] = xls_dict['2016'].rename(columns={xls_dict['2016'].columns[10]:'revenue_residential',
-                                                        xls_dict['2016'].columns[13]: 'revenue_commercial',
-                                                        xls_dict['2016'].columns[16]: 'revenue_industrial',
-                                                        xls_dict['2016'].columns[19]: 'revenue_transportation',
-                                                        xls_dict['2016'].columns[22]: 'revenue_total'})
+    xls_dict['2016'].columns.values[10]='revenue_residential'
+    xls_dict['2016'].columns.values[13]= 'revenue_commercial'
+    xls_dict['2016'].columns.values[16]= 'revenue_industrial'
+    xls_dict['2016'].columns.values[19]= 'revenue_transportation'
+    xls_dict['2016'].columns.values[22]= 'revenue_total'
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
@@ -454,6 +457,8 @@ def main():
                                                       'Ind Sales (MWh)':'sales_industrial',
                                                       'Trans Sales (MWh)':'sales_transportation',
                                                       'Total Sales (MWh)':'sales_total'})
+        xls_dict[key]['customers_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+
     ##Residential: Res Sales (MWh)
     ##Commercial: Com Sales (MWh)
     ##Industrial: Ind Sales (MWh)
@@ -468,6 +473,7 @@ def main():
                                                         'TRANSPORTATION_SALES':'sales_transportation',
                                                         'TOTAL_SALES':'sales_total'})
 
+    xls_dict['2007']['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict['2007'])))
     ##Residential: RESIDENTIAL_SALES
     ##Commercial: COMMERCIAL_SALES
     ##Industrial: INDUSTRIAL_SALES
@@ -478,11 +484,12 @@ def main():
 
     for year in np.arange(2008, 2013):
         key=str(year)
-        xls_dict[key]=xls_dict[key].rename(columns={xls_dict[key].columns[9]:'sales_residential',
-                                                    xls_dict[key].columns[12]:'sales_commercial',
-                                                    xls_dict[key].columns[15]:'sales_industrial',
-                                                    xls_dict[key].columns[18]:'sales_transportation',
-                                                    xls_dict[key].columns[21]:'sales_total'})
+        xls_dict[key].columns.values[9]='sales_residential'
+        xls_dict[key].columns.values[12]='sales_commercial'
+        xls_dict[key].columns.values[15]='sales_industrial'
+        xls_dict[key].columns.values[18]='sales_transportation'
+        xls_dict[key].columns.values[21]='sales_total'
+    xls_dict[key]['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [9]
     ##Commercial: [12]
     ##Industrial: [15]
@@ -493,11 +500,11 @@ def main():
 
     for year in np.arange(2013, 2016):
         key=str(year)
-        xls_dict[key]=xls_dict[key].rename(columns={xls_dict[key].columns[10]:'sales_residential',
-                                                    xls_dict[key].columns[13]:'sales_commercial',
-                                                    xls_dict[key].columns[16]:'sales_industrial',
-                                                    xls_dict[key].columns[19]:'sales_transportation',
-                                                    xls_dict[key].columns[22]:'sales_total'})
+        xls_dict[key].columns.values[10]='sales_residential'
+        xls_dict[key].columns.values[13]='sales_commercial'
+        xls_dict[key].columns.values[16]='sales_industrial'
+        xls_dict[key].columns.values[19]='sales_transportation'
+        xls_dict[key].columns.values[22]='sales_total'
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
@@ -505,11 +512,11 @@ def main():
     ##Total: [22]
 
     ##2016
-    xls_dict['2016'] = xls_dict['2016'].rename(columns={xls_dict['2016'].columns[11]: 'sales_residential',
-                                                        xls_dict['2016'].columns[14]: 'sales_commercial',
-                                                        xls_dict['2016'].columns[17]: 'sales_industrial',
-                                                        xls_dict['2016'].columns[20]: 'sales_transportation',
-                                                        xls_dict['2016'].columns[23]: 'sales_total'})
+    xls_dict['2016'].columns[11]= 'sales_residential'
+    xls_dict['2016'].columns[14]= 'sales_commercial'
+    xls_dict['2016'].columns[17]= 'sales_industrial'
+    xls_dict['2016'].columns[20]= 'sales_transportation'
+    xls_dict['2016'].columns[23]= 'sales_total'
     ##Residential: [11]
     ##Commercial: [14]
     ##Industrial: [17]
@@ -557,6 +564,7 @@ def main():
                                                       'Ind Consumers (n)':'customers_industrial',
                                                       'Trans Consumers (n)':'customers_transportation',
                                                       'Total Consumers (n)':'customers_total'})
+        xls_dict[key]['customers_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: Res Consumers (n)
     ##Commercial: Com Consumers (n)
     ##Industrial: Ind Consumers (n)
@@ -570,6 +578,7 @@ def main():
                                                         'TRANSPORTATION_CONSUMERS':'customers_transportation',
                                                         'TOTAL_CONSUMERS':'customers_total'})
 
+    xls_dict['2007']['customers_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict['2007'])))
     ##Residential: RESIDENTIAL_CONSUMERS
     ##Commercial: COMMERCIAL_CONSUMERS
     ##Industrial: INDUSTRIAL_CONSUMERS
@@ -579,11 +588,11 @@ def main():
     ##2008-2012
     for year in np.arange(2008, 2013):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={'xls_dict[key].columns[10]':'customers_residential',
-                                                      xls_dict[key].columns[13]:'customers_commercial',
-                                                      xls_dict[key].columns[16]:'customers_industrial',
-                                                      xls_dict[key].columns[19]:'customers_transportation',
-                                                      xls_dict[key].columns[22]:'customers_total'})
+        xls_dict[key].columns.values[10]='customers_residential'
+        xls_dict[key].columns.values[13]='customers_commercial'
+        xls_dict[key].columns.values[16]='customers_industrial'
+        xls_dict[key].columns.values[19]='customers_transportation'
+        xls_dict[key].columns.values[22]='customers_total'
 
     ##Residential: [10]
     ##Commercial: [13]
@@ -594,11 +603,11 @@ def main():
     ##2013-2015
     for year in np.arange(2013, 2015):
         key = str(year)
-        xls_dict[key] = xls_dict[key].rename(columns={xls_dict[key].columns[11]: 'customers_residential',
-                                                      xls_dict[key].columns[14]: 'customers_commercial',
-                                                      xls_dict[key].columns[17]: 'customers_industrial',
-                                                      xls_dict[key].columns[20]: 'customers_transportation',
-                                                      xls_dict[key].columns[23]: 'customers_total'})
+        xls_dict[key].columns.values[11]= 'customers_residential'
+        xls_dict[key].columns.values[14]= 'customers_commercial'
+        xls_dict[key].columns.values[17]= 'customers_industrial'
+        xls_dict[key].columns.values[20]= 'customers_transportation'
+        xls_dict[key].columns.values[23]= 'customers_total'
 
     ##Residential: [11]
     ##Commercial: [14]
@@ -621,13 +630,13 @@ def main():
     ##make the final dataframe by concatenating all the ones in the dict
 
     column_list = ['year','utility_id', 'utility_name', 'state', 'ba_code', 'ownership',
-                    'revenue_residential', 'revenue_commercial', 'revenue_industrial',
-                    'revenue_transportation', 'revenue_other', 'revenue_total',
-                    'sales_residential', 'sales_commercial', 'sales_industrial',
-                    'sales_transportation', 'sales_other', 'sales_total',
-                    'customers_residential', 'customers_commercial',
-                    'customers_industrial', 'customers_transportation',
-                    'customers_other', 'customers_total']
+                   'revenue_residential', 'revenue_commercial', 'revenue_industrial',
+                   'revenue_transportation', 'revenue_other', 'revenue_total',
+                   'sales_residential', 'sales_commercial', 'sales_industrial',
+                   'sales_transportation', 'sales_other', 'sales_total',
+                   'customers_residential', 'customers_commercial',
+                   'customers_industrial', 'customers_transportation',
+                   'customers_other', 'customers_total']
 
     eia_ult_sales_hist = pd.DataFrame(columns = column_list)
 
@@ -637,10 +646,9 @@ def main():
 
 set(eia_ult_sales_hist['year'])
 
+for item in column_list:
+    print(str(item), ' ', item in xls_dict['2008'].columns)
+
 if __name__ == "__main__":
     main()
 
-for item in column_list:
-    for year in np.arange(1990, 2017):
-        print("Is ", 'ownership', " in ", str(year), "? ")
-        print('ownership' in xls_dict[str(year)].columns)
