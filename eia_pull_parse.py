@@ -390,12 +390,12 @@ def main():
     ##2013-2015
     for year in np.arange(2013, 2016):
         key = str(year)
-        xls_dict[key].columns.values[9]='revenue_residential',
-        xls_dict[key].columns.values[12]= 'revenue_commercial',
-        xls_dict[key].columns.values[15]= 'revenue_industrial',
-        xls_dict[key].columns.values[18]= 'revenue_transportation',
-        xls_dict[key].columns.values[21]= 'revenue_total'
-    xls_dict[key]['revenue_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+        xls_dict[key].columns.values[9] ='revenue_residential'
+        xls_dict[key].columns.values[12] = 'revenue_commercial'
+        xls_dict[key].columns.values[15] = 'revenue_industrial'
+        xls_dict[key].columns.values[18] = 'revenue_transportation'
+        xls_dict[key].columns.values[21] = 'revenue_total'
+        xls_dict[key]['revenue_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [9]
     ##Commercial: [12]
     ##Industrial: [15]
@@ -489,7 +489,7 @@ def main():
         xls_dict[key].columns.values[15]='sales_industrial'
         xls_dict[key].columns.values[18]='sales_transportation'
         xls_dict[key].columns.values[21]='sales_total'
-    xls_dict[key]['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+        xls_dict[key]['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [9]
     ##Commercial: [12]
     ##Industrial: [15]
@@ -505,6 +505,7 @@ def main():
         xls_dict[key].columns.values[16]='sales_industrial'
         xls_dict[key].columns.values[19]='sales_transportation'
         xls_dict[key].columns.values[22]='sales_total'
+        xls_dict[key]['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
@@ -517,6 +518,7 @@ def main():
     xls_dict['2016'].columns.values[17]= 'sales_industrial'
     xls_dict['2016'].columns.values[20]= 'sales_transportation'
     xls_dict['2016'].columns.values[23]= 'sales_total'
+    xls_dict['2016']['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict['2016'])))
     ##Residential: [11]
     ##Commercial: [14]
     ##Industrial: [17]
@@ -593,7 +595,7 @@ def main():
         xls_dict[key].columns.values[16]='customers_industrial'
         xls_dict[key].columns.values[19]='customers_transportation'
         xls_dict[key].columns.values[22]='customers_total'
-        xls_dict[key]['customer_other']=pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+        xls_dict[key]['customers_other']=pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
@@ -621,7 +623,7 @@ def main():
     xls_dict['2016'].columns.values[18]= 'customers_industrial'
     xls_dict['2016'].columns.values[21]= 'customers_transportation'
     xls_dict['2016'].columns.values[24]= 'customers_total'
-
+    xls_dict['2016']['customers_other']= pd.Series(np.repeat(pd.np.nan, len(xls_dict['2016'])))
     ##Residential: [12]
     ##Commercial: [15]
     ##Industrial: [18]
@@ -640,7 +642,7 @@ def main():
                    'customers_other', 'customers_total']
 
     eia_ult_sales_hist = pd.DataFrame(columns = column_list)
-
+###Major problem: not indexing properly for 2015
     for year in np.arange(1990, 2017):
         key = str(year)
         eia_ult_sales_hist = pd.concat([eia_ult_sales_hist, xls_dict[key][column_list]])
@@ -648,7 +650,7 @@ def main():
 set(eia_ult_sales_hist['year'])
 
 for item in column_list:
-    print(str(item), ' ', item in xls_dict['2008'].columns)
+    print(str(item), ' ', item in xls_dict['2015'].columns)
 
 if __name__ == "__main__":
     main()
