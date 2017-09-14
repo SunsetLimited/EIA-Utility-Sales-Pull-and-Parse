@@ -457,7 +457,7 @@ def main():
                                                       'Ind Sales (MWh)':'sales_industrial',
                                                       'Trans Sales (MWh)':'sales_transportation',
                                                       'Total Sales (MWh)':'sales_total'})
-        xls_dict[key]['customers_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
+        xls_dict[key]['sales_other'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
 
     ##Residential: Res Sales (MWh)
     ##Commercial: Com Sales (MWh)
@@ -512,11 +512,11 @@ def main():
     ##Total: [22]
 
     ##2016
-    xls_dict['2016'].columns[11]= 'sales_residential'
-    xls_dict['2016'].columns[14]= 'sales_commercial'
-    xls_dict['2016'].columns[17]= 'sales_industrial'
-    xls_dict['2016'].columns[20]= 'sales_transportation'
-    xls_dict['2016'].columns[23]= 'sales_total'
+    xls_dict['2016'].columns.values[11]= 'sales_residential'
+    xls_dict['2016'].columns.values[14]= 'sales_commercial'
+    xls_dict['2016'].columns.values[17]= 'sales_industrial'
+    xls_dict['2016'].columns.values[20]= 'sales_transportation'
+    xls_dict['2016'].columns.values[23]= 'sales_total'
     ##Residential: [11]
     ##Commercial: [14]
     ##Industrial: [17]
@@ -593,7 +593,7 @@ def main():
         xls_dict[key].columns.values[16]='customers_industrial'
         xls_dict[key].columns.values[19]='customers_transportation'
         xls_dict[key].columns.values[22]='customers_total'
-
+        xls_dict[key]['customer_other']=pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [10]
     ##Commercial: [13]
     ##Industrial: [16]
@@ -601,14 +601,14 @@ def main():
     ##Total: [22]
 
     ##2013-2015
-    for year in np.arange(2013, 2015):
+    for year in np.arange(2013, 2016):
         key = str(year)
         xls_dict[key].columns.values[11]= 'customers_residential'
         xls_dict[key].columns.values[14]= 'customers_commercial'
         xls_dict[key].columns.values[17]= 'customers_industrial'
         xls_dict[key].columns.values[20]= 'customers_transportation'
         xls_dict[key].columns.values[23]= 'customers_total'
-
+        xls_dict[key]['customers_other']= pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
     ##Residential: [11]
     ##Commercial: [14]
     ##Industrial: [17]
@@ -616,11 +616,12 @@ def main():
     ##Total: [23]
 
     ##2016
-    xls_dict['2016'] = xls_dict['2016'].rename(columns={xls_dict['2016'].columns[12]: 'customers_residential',
-                                                        xls_dict['2016'].columns[15]: 'customers_commercial',
-                                                        xls_dict['2016'].columns[18]: 'customers_industrial',
-                                                        xls_dict['2016'].columns[21]: 'customers_transportation',
-                                                        xls_dict['2016'].columns[24]: 'customers_total'})
+    xls_dict['2016'].columns.values[12]= 'customers_residential'
+    xls_dict['2016'].columns.values[15]= 'customers_commercial'
+    xls_dict['2016'].columns.values[18]= 'customers_industrial'
+    xls_dict['2016'].columns.values[21]= 'customers_transportation'
+    xls_dict['2016'].columns.values[24]= 'customers_total'
+
     ##Residential: [12]
     ##Commercial: [15]
     ##Industrial: [18]
