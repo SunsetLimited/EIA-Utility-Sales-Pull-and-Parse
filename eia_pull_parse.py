@@ -642,15 +642,19 @@ def main():
                    'customers_other', 'customers_total']
 
     eia_ult_sales_hist = pd.DataFrame(columns = column_list)
-###Major problem: not indexing properly for 2015
-    for year in np.arange(1990, 2017):
+###Major problem: not indexing properly for 2015, 2016
+    for year in np.arange(1990, 2015):
         key = str(year)
         eia_ult_sales_hist = pd.concat([eia_ult_sales_hist, xls_dict[key][column_list]])
+
+xls_dict['2015'] = xls_dict['2015'][column_list]
+eia_ult_sales_hist = pd.concat()
 
 set(eia_ult_sales_hist['year'])
 
 for item in column_list:
     print(str(item), ' ', item in xls_dict['2015'].columns)
+
 
 if __name__ == "__main__":
     main()
