@@ -3,7 +3,6 @@
 import requests, zipfile, io
 import numpy as np
 import pandas as pd
-from pandas import DataFrame as df
 
 
 def main():
@@ -642,8 +641,9 @@ def main():
                    'customers_other', 'customers_total']
 
     eia_ult_sales_hist = pd.DataFrame(columns = column_list)
+
 ###Major problem: not indexing properly for 2015, 2016
-    for year in np.arange(1990, 2015):
+    for year in np.arange(1990, 2016):
         key = str(year)
         eia_ult_sales_hist = pd.concat([eia_ult_sales_hist, xls_dict[key][column_list]])
 
@@ -653,7 +653,7 @@ eia_ult_sales_hist = pd.concat()
 set(eia_ult_sales_hist['year'])
 
 for item in column_list:
-    print(str(item), ' ', item in xls_dict['2015'].columns)
+    print(str(item), ' ', item in xls_dict['2008'].columns)
 
 
 if __name__ == "__main__":
