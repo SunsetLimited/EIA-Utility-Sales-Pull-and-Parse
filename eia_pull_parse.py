@@ -7,7 +7,7 @@ import pandas as pd
 
 def main():
     ###STEP 1: DOWNLOAD ALL THE ZIP FILES ###
-    base_dls = "https://www.eia.gov/electricity/data/eia861/zip/f861"
+    base_dls = "https://www.eia.gov/electricity/data/eia861/archive/zip/f861"
     zip_dict = {}
     ###naming of files is fucked up, dealing with it....
     ###populate zip_dict, a catalog of the zip files
@@ -34,6 +34,7 @@ def main():
         dls = base_dls + year + ".zip"
         print(dls)
         zip_dict[year] = zipfile.ZipFile(io.BytesIO(requests.get(dls).content))
+##I need to add '17 and '18 all the way across the board. Good exercise
 
     zip_dict['2016'] = zipfile.ZipFile(io.BytesIO(requests.get(base_dls + '2016' + 'er.zip').content))
     ##this is the early release 2016, presumably to be updated w/out 'er' tag
