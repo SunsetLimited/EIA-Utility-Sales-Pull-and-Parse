@@ -195,13 +195,20 @@ def main():
     for year in np.arange(1999, 2013):
         key = str(year)
         xls_dict[key]['ba_code'] = pd.Series(np.repeat(pd.np.nan, len(xls_dict[key])))
-    ##2013-2016: BA_CODE
+    ##2013-2015: BA_CODE
+    #2016: ba_code
+    #2017-18: BA Code
     ##It's in wide for for the 90s, late 90s maybe gone?
     ##(control area): ASCC, ECAR, ERCOT, MAIN, MAAC, MAPP, NPCC, SERC, SPP, WSCC,
     ## HI, PR_TERR
-    for year in np.arange(2013, 2017):
+    for year in np.arange(2013, 2016):
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns = {'BA_CODE':'ba_code'})
+
+    #2016 already has my preferred convention
+    for year in np.arange(2017, 2019):
+        key = str(year)
+        xls_dict[key] = xls_dict[key].rename(columns={'BA Code':'ba_code'})
 
     ##Utility Name
     ##1990-2000 : UTILNAME
@@ -227,7 +234,7 @@ def main():
         xls_dict[key] = xls_dict[key].rename(columns={'UTILITY_ID': 'utility_id'})
         ##2007: utility_id
         ##2008-2016 : Utility Number
-    for year in np.arange(2008, 2017):
+    for year in np.arange(2008, 2019):
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'Utility Number': 'utility_id'})
         ##pivot table, codes by name (more codes than name)
@@ -270,11 +277,11 @@ def main():
 
 
     ##2008- 2016: "Ownership"
-    for year in np.arange(2008, 2017):
+    for year in np.arange(2008, 2019):
         key=str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'Ownership':'ownership'})
 
-    for year in np.arange(2008, 2017):
+    for year in np.arange(2008, 2019):
         key=str(year)
         xls_dict[key]['ownership'] = xls_dict[key]['ownership'].replace({'Federal':'FEDERAL',
                                                                          'Municipal':'MUNI',
@@ -288,7 +295,7 @@ def main():
                                                                          'Unregulated': 'UNREGULATED',
                                                                          'Wholesale Power Marketer':'WHOLESALER'})
     owner_list = []
-    for year in np.arange(2008, 2017):
+    for year in np.arange(2008, 2019):
         key=str(year)
         owner_list = owner_list + list(xls_dict[key]['ownership'])
     owner_list = set(owner_list)
@@ -301,7 +308,7 @@ def main():
     # 2013-2015: nan, 'Municipal', 'Investor Owned', 'Behind the Meter',
     # 'Retail Power Marketer', 'State', 'Cooperative',
     # 'Federal', 'Political Subdivision'
-    # 2016:{nan, 'Municipal', 'Investor Owned',
+    # 2016-18:{nan, 'Municipal', 'Investor Owned',
     # 'Community Choice Aggregator', 'Behind the Meter',
     # 'Retail Power Marketer', 'State', 'Cooperative', 'Federal',
     # 'Political Subdivision'
