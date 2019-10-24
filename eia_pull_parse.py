@@ -29,15 +29,13 @@ def main():
         dls = base_dls + year + ".zip"
         print(dls)
         zip_dict[year] = zipfile.ZipFile(io.BytesIO(requests.get(dls).content))
-    for i in np.arange(2012, 2016):
+    for i in np.arange(2012, 2018):
         year = str(i)
         dls = base_dls + year + ".zip"
         print(dls)
         zip_dict[year] = zipfile.ZipFile(io.BytesIO(requests.get(dls).content))
-##I need to add '17 and '18 all the way across the board. Good exercise
-
-    zip_dict['2016'] = zipfile.ZipFile(io.BytesIO(requests.get(base_dls + '2016' + 'er.zip').content))
-    ##this is the early release 2016, presumably to be updated w/out 'er' tag
+    ###2018 isn't archived yet, so it gets its own hardcoded assignment
+    zip_dict['2018'] = zipfile.ZipFile(io.BytesIO(requests.get('https://www.eia.gov/electricity/data/eia861/zip/f8612018.zip').content))
 
     ###STEP 2: EXTRACT THE XLS/XLSX FILES FROM THE ZIP FILES ###
 
