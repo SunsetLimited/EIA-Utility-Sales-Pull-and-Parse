@@ -47,7 +47,7 @@ def main():
     # 07-09: YEAR/file2_YEAR.xls
     # 10-11: file2_YEAR.xls
     # 12: retail_sales_2012.xls
-    # 13-15: Sales_Ult_Cust_YEAR.xls
+    # 13-18: Sales_Ult_Cust_YEAR.xls
     ##create dictionary of dataframe for the apporpriate docs
     xls_dict = {}
 
@@ -104,18 +104,14 @@ def main():
         xls_dict[key].columns = xls_dict[key].iloc[0:3].apply(lambda x: '.'.join([y for y in x if y]), axis=0)
         xls_dict[key] = xls_dict[key][3:]
 
-    xls_dict['2015'] = pd.read_excel(zip_dict['2015'].extract('Sales_Ult_Cust_2015.xlsx'), header=None)
-    xls_dict['2015'][:3] = xls_dict['2015'][:3].fillna('')
-    xls_dict['2015'].columns = xls_dict['2015'].iloc[0:3].apply(lambda x: '.'.join([y for y in x if y]), axis=0)
-    xls_dict['2015'] = xls_dict['2015'][3:]
+    for i in np.arange(2015, 2019):
+        key = str(i)
+        file_name = 'Sales_Ult_Cust_' + key + '.xlsx'
+        xls_dict[key] = pd.read_excel(zip_dict[key].extract(file_name), header=None)
+        xls_dict[key][:3] = xls_dict[key][:3].fillna('')
+        xls_dict[key].columns = xls_dict[key].iloc[0:3].apply(lambda x: '.'.join([y for y in x if y]), axis=0)
+        xls_dict[key] = xls_dict[key][3:]
 
-    xls_dict['2016'] = pd.read_excel(zip_dict['2016'].extract('Sales_Ult_Cust_2016_Data_Early_Release.xlsx'),
-                                     header=None)
-    xls_dict['2016'] = xls_dict['2016'][1:]
-    xls_dict['2016'][:3] = xls_dict['2016'][:3].fillna('')
-    xls_dict['2016'].columns = xls_dict['2016'].iloc[0:3].apply(lambda x: '.'.join([y for y in x if y]), axis=0)
-    xls_dict['2016'] = xls_dict['2016'][3:]
-    xls_dict['2016'].rename(columns={'': ''})
 
     for i in np.arange(1990, 2017):
         key = str(i)
