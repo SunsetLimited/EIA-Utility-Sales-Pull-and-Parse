@@ -113,12 +113,12 @@ def main():
         xls_dict[key] = xls_dict[key][3:]
 
 
-    for i in np.arange(1990, 2017):
+    for i in np.arange(1990, 2019):
         key = str(i)
         print(key)
         print(xls_dict[key].columns)
 
-    for year in np.arange(1990, 2017):
+    for year in np.arange(1990, 2019):
         key = str(year)
         rowNum = str(xls_dict[key].shape[0])
         colNum = str(xls_dict[key].shape[1])
@@ -130,7 +130,7 @@ def main():
     ##First, format the dataframes with consistent column names
 
     ##Year
-    for year in np.arange(1990, 2017):
+    for year in np.arange(1990, 2019):
         key = str(year)
         xls_dict[key]['year'] = pd.Series(np.repeat(year, len(xls_dict[key])))
     ##State
@@ -153,8 +153,8 @@ def main():
 
     xls_dict['2007'] = xls_dict['2007'].rename(columns={'STATE_CODE': 'state'})
 
-    #2008- 2016: State
-    for year in np.arange(2008, 2017):
+    #2008- 2018: State
+    for year in np.arange(2008, 2019):
         key = str(year)
         xls_dict[key] = xls_dict[key].rename(columns={'State': 'state'})
 
